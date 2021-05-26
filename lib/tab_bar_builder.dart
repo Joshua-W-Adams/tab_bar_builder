@@ -34,7 +34,7 @@ class TabBarBuilder extends StatefulWidget {
 }
 
 class _TabBarBuilderState extends State<TabBarBuilder>
-    with SingleTickerProviderStateMixin {
+    with TickerProviderStateMixin {
   late TabController _tabController;
 
   @override
@@ -49,7 +49,7 @@ class _TabBarBuilderState extends State<TabBarBuilder>
     if (widget.tabs.length != _tabController.length) {
       /// list of tabs changed, new controller required
       _tabController.dispose();
-      setTabController();
+      setTabController(index: _tabController.index);
     }
   }
 
@@ -59,8 +59,12 @@ class _TabBarBuilderState extends State<TabBarBuilder>
     super.dispose();
   }
 
-  void setTabController() {
-    _tabController = TabController(vsync: this, length: widget.tabs.length);
+  void setTabController({int index = 0}) {
+    _tabController = new TabController(
+      vsync: this,
+      length: widget.tabs.length,
+      initialIndex: index,
+    );
   }
 
   double _getTabWidth() {
