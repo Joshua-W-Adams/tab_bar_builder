@@ -10,8 +10,8 @@ class TabBarBuilder extends StatefulWidget {
   final Color? backgroundColor;
   final Color? indicatorColor;
   final Color? labelColor;
-  final double minTabWidth;
-  final bool expandTabs;
+  final double tabWidth;
+  final double? expandableTabWidth;
   final bool enableArrows;
   final bool isScrollable;
 
@@ -23,8 +23,8 @@ class TabBarBuilder extends StatefulWidget {
     this.backgroundColor,
     this.indicatorColor,
     this.labelColor,
-    this.minTabWidth = 70,
-    this.expandTabs = true,
+    this.tabWidth = 70,
+    this.expandableTabWidth,
     this.enableArrows = true,
     this.isScrollable = true,
   }) : super(key: key);
@@ -63,21 +63,26 @@ class _TabBarBuilderState extends State<TabBarBuilder>
     _tabController = TabController(vsync: this, length: widget.tabs.length);
   }
 
-  double _getTabWidth(BuildContext context) {
-    if (widget.expandTabs) {
-      double availableWidth = MediaQuery.of(context).size.width;
-      double expandedTabWidth = availableWidth / this.widget.tabs.length;
-      return expandedTabWidth < widget.minTabWidth
-          ? widget.minTabWidth
+  double _getTabWidth() {
+    if (widget.expandableTabWidth != null) {
+      double iconButtonSize = kMinInteractiveDimension * 2;
+      if (kIsWeb) {
+        iconButtonSize = 88;
+      }
+      double expandedTabWidth = (widget.expandableTabWidth! -
+              (widget.enableArrows == true ? iconButtonSize * 2 : 0)) /
+          this.widget.tabs.length;
+      return expandedTabWidth < widget.tabWidth
+          ? widget.tabWidth
           : expandedTabWidth;
     }
-    return widget.minTabWidth;
+    return widget.tabWidth;
   }
 
   Tab _createTab(BuildContext context, Widget tabContent) {
     return Tab(
       child: Container(
-        width: _getTabWidth(context),
+        width: _getTabWidth(),
         child: tabContent,
       ),
     );
