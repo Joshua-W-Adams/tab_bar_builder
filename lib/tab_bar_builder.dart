@@ -220,3 +220,26 @@ class ArrowTabBar extends Container implements PreferredSizeWidget {
     );
   }
 }
+
+class PersistStateWidget extends StatefulWidget {
+  final Widget child;
+
+  PersistStateWidget({required this.child});
+
+  @override
+  _PersistStateWidgetState createState() => _PersistStateWidgetState();
+}
+
+class _PersistStateWidgetState extends State<PersistStateWidget>
+    with AutomaticKeepAliveClientMixin {
+  // AutomaticKeepAlive — allows subtrees to request to be kept alive in a lazy
+  // list
+  @override
+  bool get wantKeepAlive => true;
+
+  @override
+  Widget build(BuildContext context) {
+    super.build(context);
+    return widget.child;
+  }
+}
