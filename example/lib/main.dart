@@ -101,6 +101,9 @@ class _MyHomePageState extends State<MyHomePage> {
               onTap: (index) {
                 // print('Tab: ${index + 1} pressed');
               },
+              onTabChange: (index) {
+                // print('index: ${index + 1} selected');
+              },
             );
           },
         ),

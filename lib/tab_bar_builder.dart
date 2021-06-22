@@ -7,6 +7,7 @@ class TabBarBuilder extends StatefulWidget {
   final List<Widget> tabs;
   final Widget Function(BuildContext context, int index) pageBuilder;
   final Function(int index)? onTap;
+  final Function(int index)? onTabChange;
   final Color? backgroundColor;
   final Color? indicatorColor;
   final Color? labelColor;
@@ -20,6 +21,7 @@ class TabBarBuilder extends StatefulWidget {
     required this.tabs,
     required this.pageBuilder,
     this.onTap,
+    this.onTabChange,
     this.backgroundColor,
     this.indicatorColor,
     this.labelColor,
@@ -65,6 +67,13 @@ class _TabBarBuilderState extends State<TabBarBuilder>
       length: widget.tabs.length,
       initialIndex: index,
     );
+    _tabController.addListener(_handleTabSelection);
+  }
+
+  void _handleTabSelection() {
+    if (_tabController.indexIsChanging) {
+      widget.onTabChange?.call(_tabController.index);
+    }
   }
 
   double _getTabWidth() {
