@@ -51,7 +51,14 @@ class _TabBarBuilderState extends State<TabBarBuilder>
     if (widget.tabs.length != _tabController.length) {
       /// list of tabs changed, new controller required
       _tabController.dispose();
-      setTabController(index: _tabController.index);
+      int newTabLength = widget.tabs.length - 1;
+      if (_tabController.index > newTabLength) {
+        /// current index being preserved is greater than the new total number
+        /// of tabs. i.e. the last tab was deleted while viewing it.
+        setTabController(index: newTabLength);
+      } else {
+        setTabController(index: _tabController.index);
+      }
     }
   }
 
