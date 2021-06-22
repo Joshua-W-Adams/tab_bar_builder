@@ -115,18 +115,20 @@ class _TabBarBuilderState extends State<TabBarBuilder>
     }
 
     return Scaffold(
-      appBar: ArrowTabBar(
-        enableArrows: widget.enableArrows,
-        backgroundColor: widget.backgroundColor,
-        arrowColor: widget.labelColor,
-        tabBar: TabBar(
-          controller: _tabController,
-          tabs: tabList,
-          // tab bar can scroll horizontally
-          isScrollable: widget.isScrollable,
-          onTap: widget.onTap,
-          indicatorColor: widget.indicatorColor,
-          labelColor: widget.labelColor,
+      appBar: CustomAppBar(
+        child: ArrowTabBar(
+          enableArrows: widget.enableArrows,
+          backgroundColor: widget.backgroundColor,
+          arrowColor: widget.labelColor,
+          tabBar: TabBar(
+            controller: _tabController,
+            tabs: tabList,
+            // tab bar can scroll horizontally
+            isScrollable: widget.isScrollable,
+            onTap: widget.onTap,
+            indicatorColor: widget.indicatorColor,
+            labelColor: widget.labelColor,
+          ),
         ),
       ),
       body: TabBarView(
@@ -137,7 +139,24 @@ class _TabBarBuilderState extends State<TabBarBuilder>
   }
 }
 
-class ArrowTabBar extends Container implements PreferredSizeWidget {
+class CustomAppBar extends Container implements PreferredSizeWidget {
+  final Widget child;
+
+  CustomAppBar({
+    Key? key,
+    required this.child,
+  }) : super(key: key);
+
+  @override
+  Size get preferredSize => Size.fromHeight(kToolbarHeight);
+
+  @override
+  Widget build(BuildContext context) {
+    return child;
+  }
+}
+
+class ArrowTabBar extends StatelessWidget {
   final bool enableArrows;
   final Icon leftIcon;
   final Icon rightIcon;
@@ -153,9 +172,6 @@ class ArrowTabBar extends Container implements PreferredSizeWidget {
     this.arrowColor,
     required this.tabBar,
   });
-
-  @override
-  Size get preferredSize => tabBar.preferredSize;
 
   void moveNext(TabController? controller) {
     /// preconditions
