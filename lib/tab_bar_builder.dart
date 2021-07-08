@@ -15,6 +15,7 @@ class TabBarBuilder extends StatefulWidget {
   final double? expandableTabWidth;
   final bool enableArrows;
   final bool isScrollable;
+  final ScrollPhysics? physics;
 
   TabBarBuilder({
     Key? key,
@@ -29,6 +30,7 @@ class TabBarBuilder extends StatefulWidget {
     this.expandableTabWidth,
     this.enableArrows = true,
     this.isScrollable = true,
+    this.physics,
   }) : super(key: key);
 
   @override
@@ -150,6 +152,7 @@ class _TabBarBuilderState extends State<TabBarBuilder>
       body: TabBarView(
         controller: _tabController,
         children: tabPages,
+        physics: widget.physics,
       ),
     );
   }
